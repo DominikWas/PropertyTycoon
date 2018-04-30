@@ -27,6 +27,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.animation.AnimationTimer;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 /**
  *
@@ -40,7 +42,6 @@ public class TycoonGUI extends Application
 {
     private boolean startMenu = true;
     private boolean gameMenu = false;
-    private boolean turnMenu = false;
     private Tycoon currentTycoonGame;
     private Stage stage;
     private TextField playerTextField;
@@ -50,6 +51,7 @@ public class TycoonGUI extends Application
         return stage;
     }
     
+    //First page
     @Override
     public void start(Stage primaryStage)
     {   
@@ -70,17 +72,15 @@ public class TycoonGUI extends Application
         titleText.setFont(Font.font ("Verdana", 48));
         
         Text errorText = new Text();
-        errorText.setText("Error: Wrong number of players! Get memed son");
-        errorText.setFont(Font.font ("Verdana", 48));
+        errorText.setText("Error: Incorrect no. of players, please try again.");
+        errorText.setFont(Font.font ("Verdana", 22));
         errorText.setVisible(false);
         
+        loadMonopolyMan();
+        
         Label playerLabel = new Label("Number of players:");
-        //playerLabel.setX(100);
-        //playerLabel.setY(100);
         
         playerTextField = new TextField("#");
-        //playerTextField.setTranslateX(200);
-        //playerTextField.setTranslateY(100);
         
         HBox hb = new HBox();
         hb.getChildren().addAll(playerLabel, playerTextField);
@@ -90,15 +90,13 @@ public class TycoonGUI extends Application
                  
         //Create a new layout and add elements to it like button and text
         StackPane root = new StackPane();
-        
-        //Background colour
+
         root.setStyle("-fx-background-color: BEIGE;");  
+        root.getChildren().add(loadMonopolyMan());         
         root.getChildren().add(titleText);
         root.getChildren().add(errorText);
         root.getChildren().add(hb);
-        
-        //Note: Make sure to initialise button after, make it on top
-        
+                
         //New button - starting the game
         newButton.setOnAction(new EventHandler<ActionEvent>()
         {
@@ -116,13 +114,16 @@ public class TycoonGUI extends Application
                     startMenu = false;
                     gameMenu = true;
                     root.setVisible(false);
-                    //load menu
-                    loadGameMenu(primaryStage);
-                    
+                                        
                     //load the game
                     Tycoon tycoon = new Tycoon(Integer.parseInt(playerTextField.getText()));
                     currentTycoonGame = tycoon;
-                    currentTycoonGame.getPlayerInGameByID(0).takeTurn();
+                    
+                    //take turn for first player
+                    currentTycoonGame.playerTakeTurn(currentTycoonGame.getPlayerInGameByID(0));
+                    
+                    //load the menu
+                    loadGameMenu(primaryStage);                    
                 }
             }
         });
@@ -229,18 +230,8 @@ public class TycoonGUI extends Application
         if (Integer.parseInt(playerTextField.getText()) > 1)
         {
             // FIRST PLAYER IS MA DAWG
-            try 
-            {
-                Image tycoonDog = new Image(new FileInputStream("\\\\smbhome.uscs.susx.ac.uk\\dw294\\Pictures\\Software Eng\\dog.jpeg"), 25, 25, true, true);
-                ImageView tycoonViewDog = new ImageView(tycoonDog);
-                tycoonViewDog.setTranslateX(195);
-                tycoonViewDog.setTranslateY(345);
-                root2.getChildren().add(tycoonViewDog);
-            } 
-            catch (FileNotFoundException ex) 
-            {
-                Logger.getLogger(TycoonGUI.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            //loadBoot();
+            root2.getChildren().add(loadBoot());            
             
             // SECOND PLAYER IS THE BOAT
             try 
@@ -325,25 +316,74 @@ public class TycoonGUI extends Application
             }
         }
         
+        //TOP MENU - GAME
+        Label currentPlayerLabel = new Label("Player " + currentTycoonGame.getPlayerInGameByID(0).getPlayerID() + "'s turn");
+        currentPlayerLabel.setTranslateX(425);
+        currentPlayerLabel.setTranslateY(-375);
+        currentPlayerLabel.setScaleX(3);
+        currentPlayerLabel.setScaleY(3);
+        root2.getChildren().add(currentPlayerLabel);
+        
+        Label currentPlayerPropertiesLabel = new Label(currentTycoonGame.getPlayerInGameByID(0).getProperties().toString());
+        currentPlayerPropertiesLabel.setTranslateX(425);
+        currentPlayerPropertiesLabel.setTranslateY(-300);
+        currentPlayerPropertiesLabel.setScaleX(2);
+        currentPlayerPropertiesLabel.setScaleY(2);
+        root2.getChildren().add(currentPlayerPropertiesLabel);
+        
+        //BOTTOM MENU - GAME
+        //for seperating (x, y, w, h)
+        Rectangle menuSep = new Rectangle(0, 0, 300, 3);
+        menuSep.setStroke(Color.BLACK);
+        menuSep.setFill(null);
+        menuSep.setStrokeWidth(6);
+        menuSep.setTranslateX(425);
+        menuSep.setTranslateY(0);        
+        root2.getChildren().add(menuSep);        
+        
+        //button used to take turn (roll dice)
+        Button rollButton = new Button("Roll Dice");
+        rollButton.setTranslateX(430);
+        rollButton.setTranslateY(75);
+        rollButton.setScaleX(2);
+        rollButton.setScaleY(2);
+
+        //Roll button functionality
+        rollButton.setOnAction(new EventHandler<ActionEvent>()
+        {
+            @Override
+            public void handle(ActionEvent event)
+            {
+                
+            }
+        });
+
+        root2.getChildren().add(rollButton);
+
+        //button used to purchase a property
+        Button buyButton = new Button("Buy Property");
+        buyButton.setTranslateX(430);
+        buyButton.setTranslateY(150);
+        buyButton.setScaleX(2);
+        buyButton.setScaleY(2);
+        root2.getChildren().add(buyButton);
+
+        //button used to auction a property
+        Button auctionButton = new Button("Auction Property");
+        auctionButton.setTranslateX(430);
+        auctionButton.setTranslateY(225);
+        auctionButton.setScaleX(2);
+        auctionButton.setScaleY(2);
+        root2.getChildren().add(auctionButton);
+        
         //button for trade, sell, construcc-tion, mortgage and view other profiles
-        //System.out.println("My name is Jeff");
-        //TO DO LUL
+        //TO DO
                 
         primaryStage.setScene(scene2);
         primaryStage.show();
         System.out.println("Game loaded!");
     }
-    
-    public void loadTurnMenu(Stage primaryStage)
-    {
-        turnMenu = true;
-        Button buyButton = new Button("Buy");
-        buyButton.setTranslateX(150);
-        Button auctionButton = new Button("Auction");
-        auctionButton.setTranslateX(300);
         
-    }
-    
     public static void main(String[] args)
     {
         launch(args);
@@ -352,4 +392,42 @@ public class TycoonGUI extends Application
         //Tycoon tycoon = new Tycoon(3);
         //c.drawPot(tycoon.getPlayerInGameByID(0));
     }
+    
+    public ImageView loadMonopolyMan()
+    {
+        try 
+        {
+            Image monopolyMan = new Image(new FileInputStream("monopolyMan.jpg"), 800, 800, true, true);
+            ImageView monopolyManView = new ImageView(monopolyMan);
+            monopolyManView.setTranslateX(0);
+            monopolyManView.setTranslateY(-210);
+            monopolyManView.setScaleX(0.3);
+            monopolyManView.setScaleY(0.3);
+            return monopolyManView;
+        } 
+        catch (FileNotFoundException ex) 
+        {
+            Logger.getLogger(TycoonGUI.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+    
+    public ImageView loadBoot()
+    {
+        try 
+        {
+            Image boot = new Image(new FileInputStream("boot.png"), 800, 800, true, true);
+            ImageView bootView = new ImageView(boot);
+            bootView.setTranslateX(195);
+            bootView.setTranslateY(390);
+            bootView.setScaleX(0.05);
+            bootView.setScaleY(0.05);
+            return bootView;
+        } 
+        catch (FileNotFoundException ex) 
+        {
+            Logger.getLogger(TycoonGUI.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }    
 }

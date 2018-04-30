@@ -5,8 +5,6 @@
  */
 package propertytycoon;
 
-import java.util.Random;
-
 /**
  *
  * @author dw294
@@ -41,7 +39,7 @@ public class Player
         isInJail = false;
         isOut = false;
         properties = new Property[30]; //0-29, 30 possible properties the player can own
-        //Properties includes Stations and Utilisties
+        //Properties includes Stations and Utilities
         jailCards = 0; // no. of GOOJF per player
         currentGUI = new TycoonGUI();
     }
@@ -150,7 +148,11 @@ public class Player
     {
         this.currentGUI = currentGUI;
     }
-    
+
+/**
+ * Has the player take a turn.
+ * @return Dice returns the dice that has been rolled
+ */      
     public Dice takeTurn() //rolls the dice if it's player's turn
     {
         if (isPlayersTurn())
@@ -193,6 +195,9 @@ public class Player
         }
     }
     
+/**
+ * Updates the player's string position + checks if player's cash is negative.
+ */         
     public void update()
     {
         currentStringPos = board.getPositionName(currentPos);
@@ -202,7 +207,10 @@ public class Player
             System.out.println("Sell or give up");
         }
     }
-    
+
+/**
+ * The effect given when a player lands on a particular tile.
+ */     
     public void landing()
     {
         boolean buy = false;
@@ -236,14 +244,13 @@ public class Player
         {
             for (int i = 0; i < currentTycoonGame.getPropertiesInGame().size(); i++)
             {
+                //if property is there and it is buyable
                 if (currentTycoonGame.getPropertyInGame(i).getName().equals("Brighton Station") && currentTycoonGame.getPropertyInGame(i).isBuyable())
                 {
                     if (getCash() >= currentTycoonGame.getPropertyInGame(i).getCost())
                     {
                         System.out.println("Would you like to buy Brighton Station for £200?");
                         
-                        currentGUI.loadTurnMenu(currentGUI.getStage());
-
                         if (buy)
                         {
                             buyProperty(getPropertyByID(getCurrentPos()));
@@ -259,11 +266,13 @@ public class Player
     }
     
 /**
- * Represents a player purchasing a property in the game
+ * Represents a player purchasing a property in the game.
  * @param p property to be bought
  */    
     public void buyProperty(Property p)
     {
+        //Check if can be bought done in landing()
+        
         //Purchase the property        
         setCash(getCash() - getPropertyByID(getCurrentPos()).getCost());
         
@@ -275,9 +284,29 @@ public class Player
                 properties[i] = p;
             }
         }
+        
+        //set property to not buyable in a global way
+        for (int i = 0; i < currentTycoonGame.getPropertiesInGame().size(); i++)
+        {
+            //if the property found is equal to the property being bought
+            if (currentTycoonGame.getPropertyInGame(i).equals(p))
+            {
+                currentTycoonGame.getPropertyInGame(i).setBuyable(false);
+            }
+        }
+            
+        
         managing();
     }
     
+/**
+ * Represents a player auctioning a property in the game
+ * @param p property to be auctioned
+ */    
+    public void auctionProperty(Property p)
+    {
+
+    }
     public void managing()
     {
         //Selling

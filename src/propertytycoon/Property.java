@@ -13,13 +13,13 @@ public class Property
 {
     private final String propertyName;
     private final String group;
-    private final boolean buyable;
+    private boolean buyable;
     private final int[] rentLevels; //level 0 (default), level 1 (all of a kind), 
     //level 2 (1 houses), level 3 (2 houses), level 4 (3 houses),
     //level 5 (4 houses), level 6 (hotel)
     private int currentRentLevel;
-    private int mortgage;
-    private int cost;
+    private final int mortgage;
+    private final int cost;
     
     public Property(String propertyName, int cost, String group, boolean buyable, 
             int rent0, int rent1, int rent2, int rent3, 
@@ -37,6 +37,7 @@ public class Property
         rentLevels[5] = rent5;
         currentRentLevel = 0;
         this.mortgage = mortgage;
+        this.cost = cost;
     }
     
     public String getName()
@@ -58,6 +59,11 @@ public class Property
     {
         return buyable;
     }
+    
+    public void setBuyable(boolean b) 
+    {
+        buyable = b;
+    }    
 
     public String getPropertyName() 
     {

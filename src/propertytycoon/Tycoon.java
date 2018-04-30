@@ -10,7 +10,7 @@ import java.util.*;
 
 /**
  *
- * @author dw294
+ * @author 164661
  */
 public class Tycoon 
 {
@@ -20,6 +20,7 @@ public class Tycoon
     private ArrayList<Property> propertiesInGame;
     private ArrayList<Station> stationsInGame;
     private ArrayList<Utilities> utilitiesInGame;
+    private int playerTakingTurn;
     private Card OKPL;
     
     //constructor
@@ -44,54 +45,51 @@ public class Tycoon
             //initialise properties
             initialiseProperties();
             
-            //players in-game
+            //no. of players in-game
             numberOfPlayers = players;
             
             //set first player
             int i = 0;
             Player player = new Player(i, i);
             player.setPlayersTurn(true);
+            playerTakingTurn = 0;
+            playersInGame.add(player);
             i++;
             
-            //initialising the other players, each has their own id and token
+            //initialising and storing the other players, each has their own id and token
             for (int j = 1; j < numberOfPlayers; j++)
             {
                 Player playa = new Player(j, j);
                 playersInGame.add(playa);
             }
+            
+            //first player takes turn
+            //GUI now references to playerTakeTurn()
+            
             System.out.println(numberOfPlayers + " players in Property Tycoon!");
             System.out.println();
         }
     }
     
-//    public void playerTakeTurn(Player p, int playerID)
-//    {
-//        if (p.getPlayerID() == playerID)
-//        {
-//            p.takeTurn(); // Rolls dice and advances (from player class)
-//            
-//            if (p.getCurrentStringPos().equals(board.getPositionName(4)))
-//            {   //Income Tax
-//                p.setCash(p.getCash() - 200); //income tax takes $ away
-//            }
-//            
-//            else if (p.getCurrentStringPos().equals(board.getPositionName(38)))
-//            {   //Super Tax
-//                p.setCash(p.getCash() - 75); //Super tax takes $ away
-//            }
-//            
-//            if (p.getCurrentStringPos().equals(board.getPositionName(2)))
-//            {   //Pot Luck
-//                //TO DO
-//            }
-//            
-//            p.setPlayersTurn(false);
-//        }
-//        else
-//        {
-//            System.out.println("Error: Wrong player ID!");
-//        }
-//    }
+    /**
+     * Returns the next player to take turn
+     * @return Player next player
+     */    
+    public Player nextPlayer()
+    {
+        playerTakingTurn++;
+        return playersInGame.get(playerTakingTurn);
+    }
+     /**
+     * Global logic that takes turn for a player and prepares the next player
+     * @param p player to take turn, should be nextPlayer()
+     */    
+    public void playerTakeTurn(Player p)
+    {
+            p.takeTurn(); // Rolls dice and advances (from player class)           
+            p.setPlayersTurn(false);
+            nextPlayer().setPlayersTurn(true);
+    }
 
     public int getNumberOfPlayers() 
     {
@@ -121,7 +119,10 @@ public class Tycoon
 //            player.takeTurn();
 //        }
     //}
-    
+
+    /**
+     * Initialises the properties for the game, creating objects for each property
+     */     
     public void initialiseProperties()
     {
         Property crapperStreet = new Property("Crapper Street", 60, "Brown", true, 2, 10, 30, 90, 160, 250, 30);
