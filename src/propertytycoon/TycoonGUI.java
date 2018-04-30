@@ -5,6 +5,7 @@
  */
 package propertytycoon;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.logging.Level;
@@ -27,6 +28,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.animation.AnimationTimer;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer.Status;
+import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
@@ -45,6 +50,8 @@ public class TycoonGUI extends Application
     private Tycoon currentTycoonGame;
     private Stage stage;
     private TextField playerTextField;
+    private Button playMusic;
+    private Button pauseMusic;
 
     public Stage getStage() 
     {
@@ -145,7 +152,8 @@ public class TycoonGUI extends Application
         newButton.addEventHandler(MouseEvent.MOUSE_ENTERED, 
             new EventHandler<MouseEvent>() 
             {
-                @Override public void handle(MouseEvent e) 
+                @Override 
+                public void handle(MouseEvent e) 
                 {
                     newButton.setEffect(shadow);
                 }
@@ -155,7 +163,8 @@ public class TycoonGUI extends Application
         quitButton.addEventHandler(MouseEvent.MOUSE_ENTERED, 
             new EventHandler<MouseEvent>() 
             {
-                @Override public void handle(MouseEvent e) 
+                @Override 
+                public void handle(MouseEvent e) 
                 {
                     quitButton.setEffect(shadow);
                 }
@@ -211,6 +220,7 @@ public class TycoonGUI extends Application
         StackPane root2 = new StackPane();        
         root2.setStyle("-fx-background-color: BEIGE;");
         Scene scene2 = new Scene(root2, 1200, 900);
+        
         try 
         {
             //drawing the jpg board
@@ -229,11 +239,10 @@ public class TycoonGUI extends Application
         //HOW MANY PLAYERS MUST BE RENDERED
         if (Integer.parseInt(playerTextField.getText()) > 1)
         {
-            // FIRST PLAYER IS MA DAWG
-            //loadBoot();
+            // First Player
             root2.getChildren().add(loadBoot());            
             
-            // SECOND PLAYER IS THE BOAT
+            // Second Player
             try 
             {
                 Image tycoonBoat = new Image(new FileInputStream("\\\\smbhome.uscs.susx.ac.uk\\dw294\\Pictures\\Software Eng\\boat.jpg"), 35, 35, true, true);
@@ -249,7 +258,7 @@ public class TycoonGUI extends Application
             
             if (Integer.parseInt(playerTextField.getText()) > 2)
             {
-                // THIRD PLAYER IS THE SHOE
+                // Third Player
                 try
                 {
                     Image tycoonShoe = new Image(new FileInputStream("\\\\smbhome.uscs.susx.ac.uk\\dw294\\Pictures\\Software Eng\\shoe.jpg"), 35, 35, true, true);
@@ -266,7 +275,7 @@ public class TycoonGUI extends Application
             
             if (Integer.parseInt(playerTextField.getText()) > 3)
             {
-                // FOURTH PLAYER WILL HAVE TWO NUMBER 9S A NUMBER 9 LARGE A NUMBER 6 WITH EXTRA DIP A NUMBER 7 TWO NUMBER 45S ONE WITH CHEESE AND A LARGE SODA
+                // Fourth Player
                 try
                 {
                     Image tycoonSmoke = new Image(new FileInputStream("\\\\smbhome.uscs.susx.ac.uk\\dw294\\Pictures\\Software Eng\\Smoke.jpg"), 25, 25, true, true);
@@ -283,7 +292,7 @@ public class TycoonGUI extends Application
             
             if (Integer.parseInt(playerTextField.getText()) > 4)
             {
-                // FIFTH PLAYER IS DOM
+                // Fifth Player
                 try
                 {
                     Image tycoonSenpai = new Image(new FileInputStream("\\\\smbhome.uscs.susx.ac.uk\\dw294\\Pictures\\Software Eng\\senpai.jpg"), 25, 25, true, true);
@@ -300,7 +309,7 @@ public class TycoonGUI extends Application
             
             if (Integer.parseInt(playerTextField.getText()) > 5)
             {
-                // SIXTH PLAYER CHEEKI BREEKI
+                // Sixth Player
                 try
                 {
                     Image tycoonSlav = new Image(new FileInputStream("\\\\smbhome.uscs.susx.ac.uk\\dw294\\Pictures\\Software Eng\\slav.jpg"), 25, 25, true, true);
@@ -376,6 +385,9 @@ public class TycoonGUI extends Application
         auctionButton.setScaleY(2);
         root2.getChildren().add(auctionButton);
         
+        //music player - reference provided in loadMusic() method
+        root2.getChildren().add(loadMusic(root2));
+        
         //button for trade, sell, construcc-tion, mortgage and view other profiles
         //TO DO
                 
@@ -383,16 +395,7 @@ public class TycoonGUI extends Application
         primaryStage.show();
         System.out.println("Game loaded!");
     }
-        
-    public static void main(String[] args)
-    {
-        launch(args);
-        
-        //Card c = new Card();
-        //Tycoon tycoon = new Tycoon(3);
-        //c.drawPot(tycoon.getPlayerInGameByID(0));
-    }
-    
+            
     public ImageView loadMonopolyMan()
     {
         try 
@@ -429,5 +432,64 @@ public class TycoonGUI extends Application
             Logger.getLogger(TycoonGUI.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
+    }
+
+    
+    /**
+    *   Loads up the music for the game menu
+    *   Music taken from: https://www.youtube.com/watch?v=gUqH6Weyr2M
+    *   Spiderman 2 Game - Pizza Theme
+    *   Accessed: 30/04/2018
+    *   @param p menu layout to be input
+    *   @return mjuzikView the media view returned to play the music
+    */   
+    public MediaView loadMusic(StackPane p)
+    {
+        String musicLoc = "PTtheme.mp3";
+        
+        Media mjuzik = new Media(new File(musicLoc).toURI().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(mjuzik);
+        mediaPlayer.setAutoPlay(true);
+        
+        playMusic = new Button("Music On/Off");
+        
+        MediaView mjuzikView = new MediaView(mediaPlayer); 
+        
+        //on click
+        playMusic.setOnAction(new EventHandler<ActionEvent>() 
+        {
+            @Override
+            public void handle(ActionEvent e) 
+            {
+                Status status = mediaPlayer.getStatus();
+
+                if (status == Status.PAUSED || status == Status.READY || status == Status.STALLED || status == Status.STOPPED) 
+                {
+                    mediaPlayer.play();
+                } 
+                else 
+                {
+                    mediaPlayer.pause();
+                }
+            }
+        });
+        
+        playMusic.setTranslateX(0);
+        playMusic.setTranslateY(-425);
+        playMusic.setScaleX(1);
+        playMusic.setScaleY(1);    
+        
+        p.getChildren().add(playMusic);
+        
+        return mjuzikView;
+    }
+    
+    public static void main(String[] args)
+    {
+        launch(args);
+        
+        //Card c = new Card();
+        //Tycoon tycoon = new Tycoon(3);
+        //c.drawPot(tycoon.getPlayerInGameByID(0));
     }    
 }

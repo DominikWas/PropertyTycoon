@@ -219,13 +219,13 @@ public class Player
         // If the player lands on Pot Luck
         if (getCurrentPos() == 2 || getCurrentPos() == 17 || getCurrentPos() == 33)
         {
-            currentTycoonGame.getOKPL();
+            currentTycoonGame.getOKPL().drawPot(this);
         }
 
         // If the player lands on Opportunity Knocks
         if (getCurrentPos() == 7 || getCurrentPos() == 22 || getCurrentPos() == 36)
         {
-            currentTycoonGame.getOKPL();
+            currentTycoonGame.getOKPL().drawOpportunity(this);
         }
         
         // If the player lands on Income Tax
@@ -307,6 +307,7 @@ public class Player
     {
 
     }
+    
     public void managing()
     {
         //Selling

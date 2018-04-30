@@ -40,6 +40,11 @@ public class Card
         System.out.println();
     }
     
+    
+    /**
+    *   Player draws an Opportunity Knocks card
+    *   @param p players who draws the card
+    */   
     public void drawOpportunity(Player p)
     {
         int cardTaken = (Integer) opportunityKnocks.get(0);
