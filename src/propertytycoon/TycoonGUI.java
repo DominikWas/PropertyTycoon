@@ -60,6 +60,10 @@ public class TycoonGUI extends Application
     
     //First page
     @Override
+    /**
+     * Load the menu page
+     * @param primaryStage menu details
+     */
     public void start(Stage primaryStage)
     {   
         stage = primaryStage;
@@ -211,6 +215,10 @@ public class TycoonGUI extends Application
         primaryStage.show();
     }
     
+    /**
+     * Load the game
+     * @param primaryStage game details
+     */
     public void loadGameMenu(Stage primaryStage)
     {
         gameMenu = true;
@@ -395,7 +403,11 @@ public class TycoonGUI extends Application
         primaryStage.show();
         System.out.println("Game loaded!");
     }
-            
+    
+    /**
+     * Load the Business Man on the title screen
+     * @return an image of the Business Man
+     */
     public ImageView loadMonopolyMan()
     {
         try 
@@ -415,6 +427,10 @@ public class TycoonGUI extends Application
         }
     }
     
+    /**
+     * Load the Boot on the game screen
+     * @return an image of the Boot
+     */
     public ImageView loadBoot()
     {
         try 

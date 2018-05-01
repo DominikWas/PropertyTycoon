@@ -14,7 +14,11 @@ public class Station {
     private boolean buyable;
     public String stationName;
     
-    
+    /**
+     * Initialise a station
+     * @param stationName name of a station
+     * @param buyable is the station for public sale
+     */
     public Station(String stationName, boolean buyable)
     {
         this.stationName = stationName;

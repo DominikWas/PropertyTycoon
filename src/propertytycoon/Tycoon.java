@@ -73,14 +73,15 @@ public class Tycoon
     
     /**
      * Returns the next player to take turn
-     * @return Player next player
+     * @return playersInGame return next player
      */    
     public Player nextPlayer()
     {
         playerTakingTurn++;
         return playersInGame.get(playerTakingTurn);
     }
-     /**
+    
+    /**
      * Global logic that takes turn for a player and prepares the next player
      * @param p player to take turn, should be nextPlayer()
      */    
@@ -91,16 +92,29 @@ public class Tycoon
             nextPlayer().setPlayersTurn(true);
     }
 
+    /**
+     * Retrieve the amount of players
+     * @return numberOfPlayers return number of players
+     */
     public int getNumberOfPlayers() 
     {
         return numberOfPlayers;
     }
     
+    /**
+     * Retrieve each player
+     * @return playersInGame return all players
+     */
     public ArrayList<Player> getPlayersInGame()
     {
         return playersInGame;
     }
     
+    /**
+     * Identify a player from their ID
+     * @param i player's ID
+     * @return playersInGame.get(i) return a player with an ID of i
+     */
     public Player getPlayerInGameByID(int i)
     {
         return playersInGame.get(i);
@@ -190,26 +204,47 @@ public class Tycoon
         utilitiesInGame.add(edison);   
     }
 
+    /**
+     * Retrieve a list of all properties
+     * @return propertiesInGame return all properties
+     */
     public ArrayList<Property> getPropertiesInGame() 
     {
         return propertiesInGame;
     }
     
+    /**
+     * Retrieve a particular property
+     * @param i ID of a particular property
+     * @return propertiesInGame.get(i) return a property with an ID of i
+     */
     public Property getPropertyInGame(int i)
     {
         return propertiesInGame.get(i);
     }
 
+    /**
+     * Retrieve all stations
+     * @return stationsInGame return all stations
+     */
     public ArrayList<Station> getStationsInGame() 
     {
         return stationsInGame;
     }
 
+    /**
+     * Retrieve all utilities
+     * @return utilitiesInGame return all utilities
+     */
     public ArrayList<Utilities> getUtilitiesInGame() 
     {
         return utilitiesInGame;
     }
 
+    /**
+     * Retrieve Opportunity Knocks and Pot Luck cards
+     * @return OKPL return all drawable cards
+     */
     public Card getOKPL()
     {
         return OKPL;

@@ -44,115 +44,202 @@ public class Player
         currentGUI = new TycoonGUI();
     }
 
+    /**
+     * Obtain a player's ID
+     * @return playerID return player identification number
+     */
     public int getPlayerID() 
     {
         return playerID;
     }
 
+    /**
+     * Initialise a player's ID
+     * @param playerID the number that will be a player's ID
+     */
     public void setPlayerID(int playerID) 
     {
         this.playerID = playerID;
     }
 
+    /**
+     * Obtain a player's token
+     * @return tokenID return token identification number
+     */
     public int getTokenID() 
     {
         return tokenID;
     }
 
+    /**
+     * Initialise a player's token
+     * @param tokenID the token assigned to a player
+     */
     public void setTokenID(int tokenID) 
     {
         this.tokenID = tokenID;
     }
 
+    /**
+     * Retrieve the amount of money a player has
+     * @return cash return a number describing how much money a player has
+     */
     public int getCash() 
     {
         return cash;
     }
 
+    /**
+     * Change the amount of money a player has
+     * @param cash current amount of money a player has
+     */
     public void setCash(int cash) 
     {
         this.cash = cash;
     }
 
+    /**
+     * Retrieve the current position of a player
+     * @return currentPos return a player's position
+     */
     public int getCurrentPos() 
     {
         return currentPos;
     }
 
+    /**
+     * Change the position of a player
+     * @param currentPos a player's current position
+     */
     public void setCurrentPos(int currentPos) 
     {
         this.currentPos = currentPos;
     }
     
+    /**
+     * Initialise a variable to be used to determine when it's a player's turn
+     * @return isTurn return true or false depending on whether or not it's a player's turn
+     */
     public boolean isPlayersTurn() 
     {
         return isTurn;
     }
 
+    /**
+     * Decide if it's a player's turn or not
+     * @param playersTurn boolean saying if it's the player's turn or not
+     */
     public void setPlayersTurn(boolean playersTurn) 
     {
         this.isTurn = playersTurn;
     }
 
+    /**
+     * Initialise a variable to be used to determine when a player is in jail
+     * @return isInJail return true or false depending on whether or not a player is in jail
+     */
     public boolean isIsInJail() 
     {
         return isInJail;
     }
 
+    /**
+     * Decide if a player is in jail
+     * @param isInJail boolean saying if a player is in jail
+     */
     public void setIsInJail(boolean isInJail) 
     {
         this.isInJail = isInJail;
     }
 
+    /**
+     * Retrieve a list of a player's owned properties
+     * @return properties return a player's properties
+     */
     public Property[] getProperties() 
     {
         return properties;
     }
     
+    /**
+     * Retrieve a particular property
+     * @param i ID of a particular property
+     * @return properties[i] return the particular property required
+     */
     public Property getPropertyByID(int i)
     {
         return properties[i]; 
     }
 
+    /**
+     * Modify a player's list of properties
+     * @param properties updated list of a player's properties
+     */
     public void setProperties(Property[] properties) 
     {
         this.properties = properties;
     }
 
+    /**
+     * Retrieve how many Get Out Of Jail Free cards a player has
+     * @return jailCards return the number of GOOJF cards a player has
+     */
     public int getJailCards() 
     {
         return jailCards;
     }
 
+    /**
+     * Change how many GOOJF cards a player has
+     * @param jailCards updated number of GOOJF cards a player has
+     */
     public void setJailCards(int jailCards) 
     {
         this.jailCards = jailCards;
     }
 
+    /**
+     * Retrieve the name of the tile a player is on
+     * @return currentStringPos return name of the tile a player is on
+     */
     public String getCurrentStringPos() 
     {
         return currentStringPos;
     }
 
+    /**
+     * Change the name of the tile a player is on
+     * @param currentStringPos updated name of the tile a player is on
+     */
     public void setCurrentStringPos(String currentStringPos) 
     {
         this.currentStringPos = currentStringPos;
     }
 
+    /**
+     * Identify the current GUI
+     * @return currentGUI return GUI used currently
+     */
     public TycoonGUI getCurrentGUI() 
     {
         return currentGUI;
     }
 
+    /**
+     * Change the current GUI
+     * @param currentGUI updated GUI
+     */
     public void setCurrentGUI(TycoonGUI currentGUI) 
     {
         this.currentGUI = currentGUI;
     }
-
-/**
- * Has the player take a turn.
- * @return Dice returns the dice that has been rolled
- */      
+    
+    
+    /**
+     * Has the player take a turn.
+     * Checks for doubles or triples, as well as the effects of each tile the player lands on
+     * @return dice return Dice returns the dice that has been rolled
+     */
     public Dice takeTurn() //rolls the dice if it's player's turn
     {
         if (isPlayersTurn())
@@ -195,9 +282,9 @@ public class Player
         }
     }
     
-/**
- * Updates the player's string position + checks if player's cash is negative.
- */         
+    /**
+     * Updates the player's string position + checks if player's cash is negative.
+     */
     public void update()
     {
         currentStringPos = board.getPositionName(currentPos);
@@ -208,9 +295,9 @@ public class Player
         }
     }
 
-/**
- * The effect given when a player lands on a particular tile.
- */     
+    /**
+     * The effect given when a player lands on a particular tile.
+     */
     public void landing()
     {
         boolean buy = false;
@@ -257,7 +344,7 @@ public class Player
                         }
                         else if (auction)
                         {
-                            //do something n end turn
+                            //Set up an auction and end turn
                         }
                     }
                 }
@@ -265,10 +352,10 @@ public class Player
         }
     }
     
-/**
- * Represents a player purchasing a property in the game.
- * @param p property to be bought
- */    
+    /**
+     * Represents a player purchasing a property in the game.
+     * @param p property to be bought
+     */    
     public void buyProperty(Property p)
     {
         //Check if can be bought done in landing()
@@ -294,15 +381,14 @@ public class Player
                 currentTycoonGame.getPropertyInGame(i).setBuyable(false);
             }
         }
-            
-        
+        // Give the player the option of selling, buying houses, trading or mortgaging
         managing();
     }
     
-/**
- * Represents a player auctioning a property in the game
- * @param p property to be auctioned
- */    
+    /**
+     * Represents a player auctioning a property in the game
+     * @param p property to be auctioned
+     */    
     public void auctionProperty(Property p)
     {
 
@@ -314,7 +400,5 @@ public class Player
         //Trading
         //Mortgaging
         //Houses
-        
-        //Table Flip
     }
 }

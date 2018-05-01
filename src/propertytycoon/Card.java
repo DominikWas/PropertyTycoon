@@ -43,7 +43,7 @@ public class Card
     
     /**
     *   Player draws an Opportunity Knocks card
-    *   @param p players who draws the card
+    *   @param p player who draws the card
     */   
     public void drawOpportunity(Player p)
     {
@@ -55,6 +55,11 @@ public class Card
         
     }
     
+    
+    /**
+    *   Player draws a Pot Luck card
+    *   @param p player who draws the card
+    */   
     public void drawPot(Player p)
     {
         int cardTaken = (Integer) potLuck.get(0);
@@ -64,6 +69,12 @@ public class Card
         potLuckEffects(p, cardTaken);
     }
     
+    
+    /**
+     * Player follows the instructions given by the card drawn
+     * @param p player who drew the card
+     * @param card card the player drew
+     */
     public void potLuckEffects(Player p, int card)
     {
         if (card == 0)
@@ -186,6 +197,12 @@ public class Card
         p.update();
     }    
     
+    
+     /**
+     * Player follows the instructions given by the card drawn
+     * @param p player who drew the card
+     * @param card card the player drew
+     */
     public void opportunityKnocksEffects(Player p, int card)
     {
         if (card == 0)

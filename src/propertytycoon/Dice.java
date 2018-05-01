@@ -16,22 +16,36 @@ public class Dice
     private int firstVal;
     private int secVal;
     
+    /**
+     * Create blank spaces for future dice values
+     */
     public Dice()
     {
         firstVal = 0;
         secVal = 0;
     }
 
+    /**
+     * Retrieve the value shown by the first dice
+     * @return firstVal return the value shown by the first dice
+     */
     public int getFirstVal() 
     {
         return firstVal;
     }
 
+    /**
+     * Retrieve the value shown by the second dice
+     * @return secVal return the value shown by the second dice
+     */
     public int getSecVal() 
     {
         return secVal;
     }
     
+    /**
+     * Roll the dice to obtain two values between 1 and 6
+     */
     public void rollDice() //assigns dice rolling values to die
     {
         Random r = new Random(); //creating the random values

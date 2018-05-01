@@ -40,56 +40,93 @@ public class Property
         this.cost = cost;
     }
     
+    /**
+     * Retrieve the name of a property
+     * @return property's name
+     */
     public String getName()
     {
         return propertyName;
     }
     
+    /**
+     * Retrieve the amount of houses or the amount of owned properties of the
+     * same colour to possibly increase rent
+     * @return currentRentLevel return property's rent level
+     */
     public int getRentLevel()
     {
         return currentRentLevel;
     }
     
+    /**
+     * Retrieve a property's adapted rent, taking houses and owned properties of
+     * the same colour into account
+     * @return property's rent
+     */
     public int getRent()
     {
         return rentLevels[getRentLevel()];
     }
 
+    /**
+     * Is a property available on the free market?
+     * @return buyable return true or false depending on whether a property is owned or not
+     */
     public boolean isBuyable() 
     {
         return buyable;
     }
     
+    /**
+     * Change a property's availability to being bought
+     * @param b true if one can buy the property, false if not
+     */
     public void setBuyable(boolean b) 
     {
         buyable = b;
     }    
 
+    /**
+     * Retrieve the name of a property
+     * @return propertyName return property's name
+     */
     public String getPropertyName() 
     {
         return propertyName;
     }
 
+    /**
+     * Retrieve the colour group of a property
+     * @return group return property's colour group
+     */
     public String getGroup() 
     {
         return group;
     }
 
+    /**
+     * Retrieve the cost of houses and hotels for a property
+     * @return rentLevels return property's cost of accomodation
+     */
     public int[] getRentLevels() 
     {
         return rentLevels;
     }
 
-    public int getCurrentRentLevel() 
-    {
-        return currentRentLevel;
-    }
-
+    /**
+     * Retrieve the mortgage value of a property
+     * @return mortgage return property's mortgage
+     */
     public int getMortgage() 
     {
         return mortgage;
     }
 
+    /**
+     * Retrieve the base cost of a property
+     * @return cost return property's price
+     */
     public int getCost() 
     {
         return cost;

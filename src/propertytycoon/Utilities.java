@@ -15,7 +15,11 @@ public class Utilities
     private boolean buyable;
     public String utilitiesName;
     
-    
+    /**
+     * Initialise a Utility
+     * @param utilitiesName name of a utility
+     * @param buyable is the utility for public sale
+     */
     public Utilities(String utilitiesName, boolean buyable)
     {
         this.utilitiesName = utilitiesName;
