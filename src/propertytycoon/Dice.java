@@ -9,7 +9,7 @@ import java.util.Random;
 
 /**
  *
- * @author dw294
+ * @author Group 22
  */
 public class Dice 
 {

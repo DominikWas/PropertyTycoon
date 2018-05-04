@@ -10,7 +10,7 @@ import java.util.*;
 
 /**
  *
- * @author dw294
+ * @author Group 22
  */
 public class Card 
 {

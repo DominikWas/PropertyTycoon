@@ -37,7 +37,7 @@ import javafx.scene.shape.Rectangle;
 
 /**
  *
- * @author dw294
+ * @author Group 22
  */
 
 //How to Create a JavaFX GUI Application in NetBeans IDE
@@ -114,12 +114,10 @@ public class TycoonGUI extends Application
             @Override
             public void handle(ActionEvent event)
             {
-                if (Integer.parseInt(playerTextField.getText()) > 6 || Integer.parseInt(playerTextField.getText()) < 2)
-                {
-                    errorText.setVisible(true);                    
-                    System.out.println("Error: Please input in a valid amount of players (2-6).");
-                }                
-                else
+                String input = playerTextField.getText();
+                
+                //ensures that the string matches ONLY to integer characters
+                if (input.matches("[2-6]"))
                 {
                     System.out.println("Start game");
                     startMenu = false;
@@ -134,7 +132,12 @@ public class TycoonGUI extends Application
                     currentTycoonGame.playerTakeTurn(currentTycoonGame.getPlayerInGameByID(0));
                     
                     //load the menu
-                    loadGameMenu(primaryStage);                    
+                    loadGameMenu(primaryStage);
+                }                
+                else
+                {
+                    errorText.setVisible(true);                    
+                    System.out.println("Error: Please input in a valid amount of players (2-6).");
                 }
             }
         });

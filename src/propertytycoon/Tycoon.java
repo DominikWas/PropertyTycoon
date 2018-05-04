@@ -10,7 +10,7 @@ import java.util.*;
 
 /**
  *
- * @author 164661
+ * @author Group 22
  */
 public class Tycoon 
 {

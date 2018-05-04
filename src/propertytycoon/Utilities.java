@@ -7,7 +7,7 @@ package propertytycoon;
 
 /**
  *
- * @author dw294
+ * @author Group 22
  */
 public class Utilities 
 {
