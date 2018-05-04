@@ -52,10 +52,18 @@ public class TycoonGUI extends Application
     private TextField playerTextField;
     private Button playMusic;
     private Button pauseMusic;
+    private String input;
+    private Text errorText;
+    private StackPane root;
 
     public Stage getStage() 
     {
         return stage;
+    }
+    
+    public void setInput(String s)
+    {
+        input = s;
     }
     
     //First page
@@ -82,12 +90,12 @@ public class TycoonGUI extends Application
         titleText.setText("Property Tycoon");
         titleText.setFont(Font.font ("Verdana", 48));
         
-        Text errorText = new Text();
+        errorText = new Text();
         errorText.setText("Error: Incorrect no. of players, please try again.");
         errorText.setFont(Font.font ("Verdana", 22));
         errorText.setVisible(false);
         
-        loadMonopolyMan();
+        loadTheMan();
         
         Label playerLabel = new Label("Number of players:");
         
@@ -100,21 +108,21 @@ public class TycoonGUI extends Application
         hb.setTranslateY(438);
                  
         //Create a new layout and add elements to it like button and text
-        StackPane root = new StackPane();
+        root = new StackPane();
 
         root.setStyle("-fx-background-color: BEIGE;");  
-        root.getChildren().add(loadMonopolyMan());         
+        root.getChildren().add(loadTheMan());         
         root.getChildren().add(titleText);
         root.getChildren().add(errorText);
         root.getChildren().add(hb);
-                
+        
         //New button - starting the game
         newButton.setOnAction(new EventHandler<ActionEvent>()
         {
             @Override
             public void handle(ActionEvent event)
             {
-                String input = playerTextField.getText();
+                input = playerTextField.getText();
                 
                 //ensures that the string matches ONLY to integer characters
                 if (input.matches("[2-6]"))
@@ -218,6 +226,44 @@ public class TycoonGUI extends Application
         primaryStage.show();
     }
     
+    public void testInput()
+    {
+        Button b = new Button();
+        
+        b.setOnAction(new EventHandler<ActionEvent>()
+        {
+            @Override
+            public void handle(ActionEvent event)
+            {
+                input = playerTextField.getText();
+                
+                //ensures that the string matches ONLY to integer characters
+                if (input.matches("[2-6]"))
+                {
+                    System.out.println("Start game");
+                    startMenu = false;
+                    gameMenu = true;
+                    root.setVisible(false);
+                                        
+                    //load the game
+                    Tycoon tycoon = new Tycoon(Integer.parseInt(playerTextField.getText()));
+                    currentTycoonGame = tycoon;
+                    
+                    //take turn for first player
+                    currentTycoonGame.playerTakeTurn(currentTycoonGame.getPlayerInGameByID(0));
+                    
+                    //load the menu
+                    loadGameMenu(stage);
+                }                
+                else
+                {
+                    errorText.setVisible(true);                    
+                    System.out.println("Error: Please input in a valid amount of players (2-6).");
+                }
+            }
+        });        
+    }
+    
     /**
      * Load the game
      * @param primaryStage game details
@@ -235,7 +281,7 @@ public class TycoonGUI extends Application
         try 
         {
             //drawing the jpg board
-            Image tycoonBoard = new Image(new FileInputStream("\\\\smbhome.uscs.susx.ac.uk\\dw294\\Pictures\\Property Tycoon Board draft.jpg"), 800, 800, true, true);
+            Image tycoonBoard = new Image(new FileInputStream("Property Tycoon Board.jpg"), 800, 800, true, true);
             ImageView tycoonView = new ImageView(tycoonBoard);
             tycoonView.setTranslateX(-150);
             tycoonView.setTranslateY(0);
@@ -256,11 +302,11 @@ public class TycoonGUI extends Application
             // Second Player
             try 
             {
-                Image tycoonBoat = new Image(new FileInputStream("\\\\smbhome.uscs.susx.ac.uk\\dw294\\Pictures\\Software Eng\\boat.jpg"), 35, 35, true, true);
-                ImageView tycoonViewBoat = new ImageView(tycoonBoat);
-                tycoonViewBoat.setTranslateX(230);
-                tycoonViewBoat.setTranslateY(340);
-                root2.getChildren().add(tycoonViewBoat);
+                Image tycoonHatStand = new Image(new FileInputStream("hatstand.png"), 35, 35, true, true);
+                ImageView tycoonViewHatStand = new ImageView(tycoonHatStand);
+                tycoonViewHatStand.setTranslateX(230);
+                tycoonViewHatStand.setTranslateY(340);
+                root2.getChildren().add(tycoonViewHatStand);
             } 
             catch (FileNotFoundException ex) 
             {
@@ -272,11 +318,11 @@ public class TycoonGUI extends Application
                 // Third Player
                 try
                 {
-                    Image tycoonShoe = new Image(new FileInputStream("\\\\smbhome.uscs.susx.ac.uk\\dw294\\Pictures\\Software Eng\\shoe.jpg"), 35, 35, true, true);
-                    ImageView tycoonViewShoe = new ImageView(tycoonShoe);
-                    tycoonViewShoe.setTranslateX(195);
-                    tycoonViewShoe.setTranslateY(370);
-                    root2.getChildren().add(tycoonViewShoe);
+                    Image tycoonSmartphone = new Image(new FileInputStream("smartphone.png"), 35, 35, true, true);
+                    ImageView tycoonViewSmartphone = new ImageView(tycoonSmartphone);
+                    tycoonViewSmartphone.setTranslateX(195);
+                    tycoonViewSmartphone.setTranslateY(370);
+                    root2.getChildren().add(tycoonViewSmartphone);
                 }
                 catch (FileNotFoundException ex)
                 {
@@ -289,11 +335,11 @@ public class TycoonGUI extends Application
                 // Fourth Player
                 try
                 {
-                    Image tycoonSmoke = new Image(new FileInputStream("\\\\smbhome.uscs.susx.ac.uk\\dw294\\Pictures\\Software Eng\\Smoke.jpg"), 25, 25, true, true);
-                    ImageView tycoonViewSmoke = new ImageView(tycoonSmoke);
-                    tycoonViewSmoke.setTranslateX(230);
-                    tycoonViewSmoke.setTranslateY(370);
-                    root2.getChildren().add(tycoonViewSmoke);
+                    Image tycoonGoblet = new Image(new FileInputStream("goblet.png"), 25, 25, true, true);
+                    ImageView tycoonViewGoblet = new ImageView(tycoonGoblet);
+                    tycoonViewGoblet.setTranslateX(230);
+                    tycoonViewGoblet.setTranslateY(370);
+                    root2.getChildren().add(tycoonViewGoblet);
                 }
                 catch (FileNotFoundException ex)
                 {
@@ -306,11 +352,11 @@ public class TycoonGUI extends Application
                 // Fifth Player
                 try
                 {
-                    Image tycoonSenpai = new Image(new FileInputStream("\\\\smbhome.uscs.susx.ac.uk\\dw294\\Pictures\\Software Eng\\senpai.jpg"), 25, 25, true, true);
-                    ImageView tycoonViewSenpai = new ImageView(tycoonSenpai);
-                    tycoonViewSenpai.setTranslateX(195);
-                    tycoonViewSenpai.setTranslateY(390);
-                    root2.getChildren().add(tycoonViewSenpai);
+                    Image tycoonSpoon = new Image(new FileInputStream("spoon.png"), 25, 25, true, true);
+                    ImageView tycoonViewSpoon = new ImageView(tycoonSpoon);
+                    tycoonViewSpoon.setTranslateX(195);
+                    tycoonViewSpoon.setTranslateY(390);
+                    root2.getChildren().add(tycoonViewSpoon);
                 }
                 catch (FileNotFoundException ex)
                 {
@@ -323,11 +369,11 @@ public class TycoonGUI extends Application
                 // Sixth Player
                 try
                 {
-                    Image tycoonSlav = new Image(new FileInputStream("\\\\smbhome.uscs.susx.ac.uk\\dw294\\Pictures\\Software Eng\\slav.jpg"), 25, 25, true, true);
-                    ImageView tycoonViewSlav = new ImageView(tycoonSlav);
-                    tycoonViewSlav.setTranslateX(230);
-                    tycoonViewSlav.setTranslateY(390);
-                    root2.getChildren().add(tycoonViewSlav);
+                    Image tycoonCat = new Image(new FileInputStream("cat.png"), 25, 25, true, true);
+                    ImageView tycoonViewCat = new ImageView(tycoonCat);
+                    tycoonViewCat.setTranslateX(230);
+                    tycoonViewCat.setTranslateY(390);
+                    root2.getChildren().add(tycoonViewCat);
                 }
                 catch (FileNotFoundException ex)
                 {
@@ -411,17 +457,17 @@ public class TycoonGUI extends Application
      * Load the Business Man on the title screen
      * @return an image of the Business Man
      */
-    public ImageView loadMonopolyMan()
+    public ImageView loadTheMan()
     {
         try 
         {
-            Image monopolyMan = new Image(new FileInputStream("monopolyMan.jpg"), 800, 800, true, true);
-            ImageView monopolyManView = new ImageView(monopolyMan);
-            monopolyManView.setTranslateX(0);
-            monopolyManView.setTranslateY(-210);
-            monopolyManView.setScaleX(0.3);
-            monopolyManView.setScaleY(0.3);
-            return monopolyManView;
+            Image theMan = new Image(new FileInputStream("theMan.jpg"), 800, 800, true, true);
+            ImageView theManView = new ImageView(theMan);
+            theManView.setTranslateX(0);
+            theManView.setTranslateY(-210);
+            theManView.setScaleX(0.3);
+            theManView.setScaleY(0.3);
+            return theManView;
         } 
         catch (FileNotFoundException ex) 
         {
@@ -505,10 +551,7 @@ public class TycoonGUI extends Application
     
     public static void main(String[] args)
     {
-        launch(args);
+        //launch(args);
         
-        //Card c = new Card();
-        //Tycoon tycoon = new Tycoon(3);
-        //c.drawPot(tycoon.getPlayerInGameByID(0));
     }    
 }
